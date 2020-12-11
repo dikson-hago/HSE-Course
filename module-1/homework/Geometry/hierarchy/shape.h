@@ -6,7 +6,6 @@
 
 class Shape {
 public:
-	void out();
 	std::vector<Point> vertices;
 	const bool operator==(const Shape& another);
 	double perimeter();

@@ -3,7 +3,7 @@
 #include <algorithm>
 
 Polygon::Polygon(const std::vector<Point>& a) {
-    for (int i = 0; i < a.size(); i++) {
+    for (uint64_t i = 0; i < a.size(); i++) {
         this->vertices.push_back(a[i]);
     }
 }
@@ -12,7 +12,7 @@ Polygon::Polygon() {}
 
 std::vector<Point> Polygon::getVertices() {
     std::vector<Point> result;
-    for (int i = 0; i < this->vertices.size(); i++) {
+    for (uint64_t i = 0; i < this->vertices.size(); i++) {
         result.push_back(Point(this->vertices[i].x, this->vertices[i].y));
     }
     return result;

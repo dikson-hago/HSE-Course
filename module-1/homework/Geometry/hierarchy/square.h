@@ -7,8 +7,9 @@
 #include "circle.h"
 
 class Square : public Rectangle {
-public:
+private:
 	Point first_point, second_point;
+public:
 	Square();
 	Square(Point first, Point second);
 	~Square() = default;

@@ -6,12 +6,6 @@
 
 const double pi = 3.1415926;
 
-/*void Shape::out() {
-    for (int i = 0; i < vertices.size(); i++) {
-        std::cout << vertices[i].x << ' ' << vertices[i].y << std::endl;
-    }
-    std::cout << std::endl;
-}*/
 // for vector
 double operator*(const Vector& a, const Vector& b) {
     return a.x * b.y - a.y * b.x;
@@ -25,18 +19,26 @@ bool is_on_line(Line line, Point p) {
     Point p3 = line.second_point;
     Vector v1(p.x - p2.x, p.y - p2.y, 0);
     Vector v2(p3.x - p2.x, p3.y - p2.y, 0);
-    if (v1 * v2 != 0) return false;
+    if (v1 * v2 != 0) {
+        return false;
+    }
     Vector v3(p.x - p3.x, p.y - p3.y, 0);
     Vector v4(p2.x - p3.x, p2.y - p3.y, 0);
-    if (v3 % v4 >= 0 && v1 % v2 >= 0) return true;
+    if (v3 % v4 >= 0 && v1 % v2 >= 0) {
+        return true;
+    }
     return false;
 }
 double area_t(Point a, Point b, Point c) {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
 bool is_crossed_1(double a, double b, double c, double d) {
-    if (a > b) std::swap(a, b);
-    if (c > d) std::swap(c, d);
+    if (a > b) {
+        std::swap(a, b);
+    }
+    if (c > d) {
+        std::swap(c, d);
+    }
     return std::max(a, c) <= std::min(b, d);
 }
 bool is_crossed(Point a, Point b, Point c, Point d) {
@@ -47,7 +49,7 @@ bool is_crossed(Point a, Point b, Point c, Point d) {
 // containsPoint
 bool Shape::containsPoint(Point point) {
     Point point_to(point.x + 2e9, point.y);
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     int counter = 0;
     for (int i = 0; i < n; i++) {
         int next_i = (i + 1) % n;
@@ -81,7 +83,7 @@ const bool Shape::operator==(const Shape& another) {
     if (this->vertices.size() != another.vertices.size()) {
         return false;
     }
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     double exp = 0.000001;
     std::vector<bool> used(n, false);
     for (int i = 0; i < n; i++) {
@@ -103,7 +105,7 @@ const bool Shape::operator==(const Shape& another) {
 // perimetr
 double Shape::perimeter() {
     double P = 0;
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     for (int i = 0; i < n; i++) {
         int next_i = (i + 1) % n;
         P += len(this->vertices[i], this->vertices[next_i]);
@@ -112,7 +114,7 @@ double Shape::perimeter() {
 }
 // area
 double Shape::area() {
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     double S = 0;
     for (int i = 0; i < n; i++) {
         Point p1 = i ? this->vertices[i - 1] : this->vertices[n - 1];
@@ -165,7 +167,7 @@ bool Shape::isSimilarTo(const Shape& another) {
 bool Shape::isCongruentTo(const Shape& another) {
     std::vector<double> angle_this;
     std::vector<double> angle_another;
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     if (another.vertices.size() != n) {
         return false;
     }
@@ -222,7 +224,7 @@ void Shape::reflex(Point center) {
 }
 // reflex_line
 void Shape::reflex(Line axis) {
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     Vector l(axis.first_point.x - axis.second_point.x,
         axis.first_point.y - axis.second_point.y, 0);
     for (int i = 0; i < n; i++) {
@@ -241,7 +243,7 @@ void Shape::reflex(Line axis) {
 }
 // scale
 void Shape::scale(Point center, double coefficient) {
-    for (int i = 0; i < this->vertices.size(); i++) {
+    for (uint64_t i = 0; i < this->vertices.size(); i++) {
         this->vertices[i].x =
             center.x + coefficient * (this->vertices[i].x - center.x);
         this->vertices[i].y =
@@ -251,7 +253,7 @@ void Shape::scale(Point center, double coefficient) {
 // rotate
 void Shape::rotate(Point center, double angle) {
     angle = (angle * pi) / 180.0;
-    int n = this->vertices.size();
+    uint64_t n = this->vertices.size();
     for (int i = 0; i < n; i++) {
         double xx = this->vertices[i].x, yy = this->vertices[i].y, x0 = center.x,
             y0 = center.y;

@@ -1,13 +1,16 @@
 #include "triangle.h"
 
 bool cmp(const Point& a, const Point& b) { return a.x < b.x; }
+
 double vec_pr(const Vector& a, const Vector& b) {
     return a.x * b.y - a.y * b.x;
 }
+
 double leng(const Point first, const Point second) {
     return sqrt((first.x - second.x) * (first.x - second.x) +
         (first.y - second.y) * (first.y - second.y));
 }
+
 Triangle::Triangle() {
     Point p[3];
     for (int i = 0; i < 3; i++) {
@@ -17,6 +20,7 @@ Triangle::Triangle() {
     vec[1] = Vector(p[2].x - p[0].x, p[2].y - p[0].y, leng(p[0], p[2]));
     vec[2] = Vector(p[2].x - p[1].x, p[2].y - p[1].y, leng(p[1], p[2]));
 }
+
 Triangle::Triangle(Point& a, Point& b, Point& c) {
     std::vector<Point> v;
     v.push_back(a);
@@ -34,6 +38,7 @@ Triangle::Triangle(Point& a, Point& b, Point& c) {
         this->vertices.push_back(v[2]);
     }
 }
+
 Circle Triangle::circumscribedCircle() {
     double sin_a =
         fabs(vec_pr(vec[0], vec[1])) / (vec[0].vector_len * vec[1].vector_len);
@@ -60,13 +65,17 @@ Circle Triangle::circumscribedCircle() {
     result.cir_center.y = y0;
     return result;
 }
+
 double area_t(Point& a, Point& b, Point& c) {
     return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) / 2.0;
 }
+
 Point middle_point(Point& a, Point& b) {
     return Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0);
 }
+
 double angle_side(Point& a, Point& b) { return (b.y - a.y) / (b.x - a.x); }
+
 Circle Triangle::inscribedCircle() {
     Point p[3];
     for (int i = 0; i < 3; i++) {

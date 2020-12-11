@@ -19,11 +19,13 @@ Rectangle::Rectangle(Point a, Point b, double& ratio) {
     }
     this->k = ratio;
 }
+
 Rectangle::Rectangle() {
     for (int i = 0; i < 2; i++) {
         this->vertices.push_back(Point(0, 0));
     }
 }
+
 Point Rectangle::center() {
     Point result;
     for (int i = 1; i <= 3; i++) {
@@ -36,6 +38,7 @@ Point Rectangle::center() {
     }
     return result;
 }
+
 std::pair<Line, Line> Rectangle::diagonals() {
     std::pair<Line, Line> result;
     int count_changes = 0;
