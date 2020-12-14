@@ -5,8 +5,9 @@
 #include "line.h"
 
 class Shape {
-public:
+protected:
 	std::vector<Point> vertices;
+public:
 	const bool operator==(const Shape& another);
 	double perimeter();
 	double area();
