@@ -23,7 +23,7 @@ public:
 
 
     std::string toString(); // function to_vector -> to_string
-    void toVector(); // function to_string -> to_vector
+    std::vector<int> toVector(); // function to_string -> to_vector
 
     BigInteger(const int value);
     BigInteger(const long long value);
