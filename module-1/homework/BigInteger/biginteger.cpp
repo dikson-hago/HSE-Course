@@ -26,39 +26,43 @@ std::string BigInteger::toString()
 }
 
 // function to_string -> to_vector
-std::vector<int> BigInteger::toVector()
+void BigInteger::toVector()
 {
     LL num_now = 0; // variable for one part of number
     LL ten_power = 1; // power of ten
     int counter_signs = 0; // part of number includes only 10 signs
     to_vector.clear();
     sign = 1;
-    for (uint64_t i = to_string.size() - 1; i >= 0; i--) // convert string to vector
-    {
-        if (to_string[i] == '-') { // check sign before number
-            sign = 0;
-            break;
-        }
-        num_now = num_now + (to_string[i] - '0') * ten_power;
-        ten_power *= 10;
-        counter_signs++;
-        if (counter_signs == 9) // finish to build part of number
+    uint64_t len_s = to_string.size();
+    len_s--;
+    if (to_string.size() != 0) {
+        for (uint64_t i = len_s; i >= 0; i--) // convert string to vector
         {
-            to_vector.push_back(num_now + max_num); // add new part of number to vector
-            counter_signs = 0;
-            num_now = 0;
-            ten_power = 1;
+            if (to_string[i] == '-') { // check sign before number
+                sign = 0;
+                break;
+            }
+            int num_string = to_string[i];
+            num_now = num_now + (num_string - '0') * ten_power;
+            ten_power *= 10;
+            counter_signs++;
+            if (counter_signs == 9) // finish to build part of number
+            {
+                to_vector.push_back(num_now + max_num); // add new part of number to vector
+                counter_signs = 0;
+                num_now = 0;
+                ten_power = 1;
+            }
+            if (i == 0)
+            {
+                break;
+            }
         }
-        if (i == 0) 
+        if (num_now != 0 || num_now == 0 && to_vector.size() == 0)
         {
-            break;
+            to_vector.push_back(num_now + max_num); // add last part to vector
         }
     }
-    if (num_now != 0 || num_now == 0 && to_vector.size() == 0)
-    {
-        to_vector.push_back(num_now + max_num); // add last part to vector
-    }
-    return to_vector;
 }
 
 // convert int to BigInteger
@@ -359,23 +363,18 @@ BigInteger BigInteger::operator / (BigInteger& number_2)
     part_dividend.to_string = "";
     part_dividend.sign = true;
     int quotient = 0;
-    //std :: cout << first << std :: endl;
     for (uint64_t i = 0; i < first.to_string.size(); i++) {
         part_dividend.to_string += first.to_string[i];
         part_dividend.toVector();
-        //  std::cout << part_dividend << std::endl;
         quotient = 0;
-        //std :: cout << part_dividend << ' ' << std :: endl;
         while (part_dividend >= second) {
             part_dividend = part_dividend - second;
-            //std :: cout << "qq " << part_dividend << std :: endl;
             quotient++;
         }
         part_dividend.toString();
         if (!(quotient == 0 && result.to_string.size() == 0))
         {
             result.to_string = result.to_string + char(quotient + '0');
-            // std :: cout << "yes\n";
         }
     }
     result.toVector();
