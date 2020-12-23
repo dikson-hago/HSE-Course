@@ -4,7 +4,7 @@
 std::string BigInteger::toString()
 {
     to_string = "";
-    for (int i = 0; i < to_vector.size(); i++)
+    for (uint64_t i = 0; i < to_vector.size(); i++)
     {
         if (i != to_vector.size() - 1)
         {   // first part of number
@@ -33,21 +33,27 @@ std::vector<int> BigInteger::toVector()
     int counter_signs = 0; // part of number includes only 10 signs
     to_vector.clear();
     sign = 1;
-    for (int i = to_string.size() - 1; i >= 0; i--) // convert string to vector
-    {
-        if (to_string[i] == '-') { // check sign before number
-            sign = 0;
-            break;
-        }
-        num_now = num_now + (to_string[i] - '0') * ten_power;
-        ten_power *= 10;
-        counter_signs++;
-        if (counter_signs == 9) // finish to build part of number
+    if (to_string.size() != 0) {
+        for (uint64_t i = to_string.size() - 1; i >= 0; i--) // convert string to vector
         {
-            to_vector.push_back(num_now + max_num); // add new part of number to vector
-            counter_signs = 0;
-            num_now = 0;
-            ten_power = 1;
+            if (to_string[i] == '-') { // check sign before number
+                sign = 0;
+                break;
+            }
+            num_now = num_now + (to_string[i] - '0') * ten_power;
+            ten_power *= 10;
+            counter_signs++;
+            if (counter_signs == 9) // finish to build part of number
+            {
+                to_vector.push_back(num_now + max_num); // add new part of number to vector
+                counter_signs = 0;
+                num_now = 0;
+                ten_power = 1;
+            }
+            if (i == 0)
+            {
+                break;
+            }
         }
     }
     if (num_now != 0 || num_now == 0 && to_vector.size() == 0)
@@ -142,11 +148,15 @@ const bool BigInteger::operator == (const BigInteger& number_2)
     {
         return false;
     }
-    for (int i = this->to_vector.size() - 1; i >= 0; i--) // compare of numbers
+    for (uint64_t i = this->to_vector.size() - 1; i >= 0; i--) // compare of numbers
     {
         if (this->to_vector[i] != number_2.to_vector[i])
         {
             return false;
+        }
+        if (i == 0) 
+        {
+            break;
         }
     }
     return true;
@@ -289,15 +299,18 @@ BigInteger BigInteger::operator * (BigInteger& number_2)
         return result;
     }
     std::string zero = "";
-    for (int i = copy_2.to_string.size() - 1; i >= 0; i--)
+    for (uint64_t i = copy_2.to_string.size() - 1; i >= 0; i--)
     {
         way.to_string = "";
         int ost = 0;
-        for (int j = copy_1.to_string.size() - 1; j >= 0; j--)
+        for (uint64_t j = copy_1.to_string.size() - 1; j >= 0; j--)
         {
             ost = ost + (copy_1.to_string[j] - '0') * (copy_2.to_string[i] - '0');
             way.to_string = char(ost % 10 + '0') + way.to_string;
             ost /= 10;
+            if (j == 0) {
+                break;
+            }
         }
         if (ost != 0)
         {
@@ -307,6 +320,10 @@ BigInteger BigInteger::operator * (BigInteger& number_2)
         way.toVector();
         result = result + way;
         zero += '0';
+        if (i == 0) 
+        {
+            break;
+        }
     }
     if (!this->sign && !number_2.sign || this->sign && number_2.sign)
     {
@@ -345,7 +362,7 @@ BigInteger BigInteger::operator / (BigInteger& number_2)
     part_dividend.sign = true;
     int quotient = 0;
     //std :: cout << first << std :: endl;
-    for (int i = 0; i < first.to_string.size(); i++) {
+    for (uint64_t i = 0; i < first.to_string.size(); i++) {
         part_dividend.to_string += first.to_string[i];
         part_dividend.toVector();
         //  std::cout << part_dividend << std::endl;
@@ -398,7 +415,7 @@ BigInteger BigInteger::operator % (BigInteger& number_2)
     part_dividend.to_string = "";
     part_dividend.sign = true;
     int quotient = 0;
-    for (int i = 0; i < first.to_string.size(); i++) {
+    for (uint64_t i = 0; i < first.to_string.size(); i++) {
         part_dividend.to_string += first.to_string[i];
         part_dividend.toVector();
         quotient = 0;
@@ -429,7 +446,7 @@ BigInteger& BigInteger::operator += (BigInteger number_2)
         this->to_vector.clear();
         LL new_sum;
         LL ost = 0;
-        for (int i = 0; i < number_1.to_vector.size() || i < number_2.to_vector.size(); i++)
+        for (uint64_t i = 0; i < number_1.to_vector.size() || i < number_2.to_vector.size(); i++)
         {
             new_sum = ost;
             if (i < number_1.to_vector.size())
@@ -507,7 +524,7 @@ BigInteger& BigInteger::operator -= (BigInteger number_2)
             return *this;
         }
         int part_1, part_2, res, ost = 0;
-        for (int i = 0; i < copy_1.to_vector.size(); i++)
+        for (uint64_t i = 0; i < copy_1.to_vector.size(); i++)
         {
             part_1 = copy_1.to_vector[i] - max_num;
             part_2 = 0;
@@ -573,7 +590,7 @@ BigInteger& BigInteger::operator %= (BigInteger number_2)
 // unarn operations
 BigInteger& BigInteger::operator ++ ()
 {
-    for (int i = 0; i < this->to_vector.size(); i++)
+    for (uint64_t i = 0; i < this->to_vector.size(); i++)
     {
         if (this->to_vector[i] - max_num + 1 >= max_num)
         {
@@ -601,7 +618,7 @@ BigInteger BigInteger::operator ++ (int)
 
 BigInteger& BigInteger::operator -- ()
 {
-    for (int i = 0; i < this->to_vector.size(); i++)
+    for (uint64_t i = 0; i < this->to_vector.size(); i++)
     {
         if (this->to_vector[i] == max_num) {
             this->to_vector[i] = max_num - 1 + max_num;
